@@ -1,0 +1,3 @@
+[submodule "LibICSServo"]
+	path = LibICSServo
+	url = https://github.com/GOROman/LibICSServo.git
