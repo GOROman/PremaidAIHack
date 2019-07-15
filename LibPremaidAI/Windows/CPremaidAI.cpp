@@ -138,7 +138,7 @@ void CPremaidAI::SetPosition(const int id, const int pos) {
 	}
 	else {
 		if (BONEFLIPTABLE[id] == 1) {
-			new_pos = (pos - 7500) * -1 + 7500;
+//			new_pos = (pos - 7500) * -1 + 7500;
 		}
 	}
 	_ics[BONEMOTORTYPE[id]]->SetPosition(BONEID2SERVOIDTABLE[id], new_pos);
