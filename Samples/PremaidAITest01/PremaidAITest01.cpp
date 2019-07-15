@@ -5,6 +5,24 @@
 #define PORT		_T("COM3")
 #define BAUDRATE	1250000
 
+static void mirroring_sample(CPremaidAI& ai)
+{
+	for (int i = 0; i < 1000; ++i) {
+		int pos;
+		ai.SetPosition(8, 0);
+		pos = ai.GetPosition(8);
+		ai.SetPosition( 10, pos );
+
+		ai.SetPosition(12, 0);
+		pos = ai.GetPosition(12);
+		ai.SetPosition(14, pos);
+
+		ai.SetPosition(16, 0);
+		pos = ai.GetPosition(16);
+		ai.SetPosition(18, pos);
+	}
+}
+
 int main()
 {
 	printf("Premaid AI Test 01\n");
@@ -17,8 +35,14 @@ int main()
 
 	// サーボスピード設定
 	for (int i = 1; i <= SERVO_COUNT; ++i) {
-		ai.SetSpeed(i, 40);
+		ai.SetSpeed(i, 90);
 	}
+	// ストレッチ設定
+	for (int i = 1; i <= SERVO_COUNT; ++i) {
+		ai.SetStrectch(i, 40);
+	}
+
+	mirroring_sample(ai);
 
 	// サーボ位置を動かす例
 	for (int j = 0; j < 10; ++j) {

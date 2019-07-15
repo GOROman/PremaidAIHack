@@ -165,7 +165,7 @@ public:
 		if (_isConnected == false) return RESULT_ERROR;
 		BOOL result = FALSE;
 		for (int i = 0; i < 10; i++) {
-			printf(">>WRITE[%02d]:",i);
+			printf(">>WRITE[%2d]:",size);
 			for (int j = 0; j < size; j++) {
 				printf("%02x ", buffer[j]);
 			}
