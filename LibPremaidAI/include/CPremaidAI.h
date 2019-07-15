@@ -9,7 +9,6 @@
 
 #include <ISerialPort.h>
 #include <IServo.h>
-#include <IServoController.h>
 
 enum  {
 	SHOULDER_PITCH_R = 1,	// Œ¨ƒsƒbƒ`R
