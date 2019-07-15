@@ -61,8 +61,6 @@ class LIBPREMAIDAI_DLL_EXPORT CPremaidAI {
 	IServo* _ics[ICS_COUNT];
 
 public:
-	//IServoController* _ics;
-
 	CPremaidAI();
 
 	virtual ~CPremaidAI();

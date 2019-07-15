@@ -4,7 +4,6 @@
 
 
 #include <Common.h>
-#include <windows.h>
 
 #include "CPremaidAI.h"
 
@@ -197,6 +196,8 @@ void CPremaidAI::SetPositionAll(const int pos) {
 		SetPosition(id, pos);
 	}
 }
+
+// サーボ位置の取得
 int CPremaidAI::GetPosition(const int id) {
 	int pos = 0;
 	_ics[BONEMOTORTYPE[id]]->GetPosition(BONEID2SERVOIDTABLE[id], &pos);
