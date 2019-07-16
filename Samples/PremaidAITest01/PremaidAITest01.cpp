@@ -57,11 +57,14 @@ void network_sample(CPremaidAI& ai) {
 	ai.SetPositionAll(7500);
 
 	for (int id = 1; id <= 25; id++) {
-		ai.SetStrectch(id, 24);//24
+		ai.SetStrectch(id, 40);//24
 	}
 	for (int id = 1; id <= 25; id++) {
-		ai.SetSpeed(id, 100);// 63 + 8 * j);
+		ai.SetSpeed(id, 80);// 63 + 8 * j);
 	}
+
+	int pos[25] = { 0 };
+	int old[25] = { 0 };
 
 	WORD angle;
 	while (1) {
@@ -104,23 +107,32 @@ void network_sample(CPremaidAI& ai) {
 
 
 
-		char buf[1024];
-		int n = recv(sock, buf, sizeof(buf), 0);
-		if (n < 1) {
-			if (WSAGetLastError() == WSAEWOULDBLOCK) {
+		char buf[4096];
+		for (int j = 0; j < 1; ++j) {
+			int n = recv(sock, buf, sizeof(buf), 0);
+			if (n < 1) {
+				if (WSAGetLastError() == WSAEWOULDBLOCK) {
+				}
+				else {
+					printf("error : 0x%x\n", WSAGetLastError());
+				}
+				break;
 			}
 			else {
-				printf("error : 0x%x\n", WSAGetLastError());
+				int a = 0;
+				sscanf_s(buf, "%d=%d\n", &id, &a);
+				printf("ID:%2d = %5d\n", id, a);
+				pos[id] = a;
 			}
 		}
-		else {
-			//			memcpy(buf, &angle, sizeof(buf));
-			int a = 0;
-			sscanf_s(buf, "%d=%d\n", &id, &a);
-			printf("ID:%2d = %5d\n", id, a);
-			ai.SetPosition(id, a);
-		}
+		for (int i = 1; i < 25; ++i) {
 
+			if (pos[i] != old[i]) {
+				old[i] = pos[i];
+				ai.SetPosition(id, pos[i]);
+			}
+		}
+		Sleep(1);
 
 	}
 	closesocket(sock);
@@ -142,11 +154,11 @@ int main()
 
 	// サーボスピード設定
 	for (int i = 1; i <= SERVO_COUNT; ++i) {
-		ai.SetSpeed(i, 90);
+		ai.SetSpeed(i, 127);
 	}
 	// ストレッチ設定
 	for (int i = 1; i <= SERVO_COUNT; ++i) {
-		ai.SetStrectch(i, 40);
+		ai.SetStrectch(i, 60);
 	}
 	ai.SetPositionAll(0);
 
