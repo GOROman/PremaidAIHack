@@ -9,7 +9,8 @@
 #pragma comment(lib,"wsock32.lib")
 
 
-#define PORT		_T("COM3")
+#define PORT_MV		_T("COM4")
+#define PORT_HV		_T("COM7")
 #define BAUDRATE	1250000
 
 static void mirroring_sample(CPremaidAI& ai)
@@ -125,7 +126,7 @@ void network_sample(CPremaidAI& ai) {
 				pos[id] = a;
 			}
 		}
-		for (int i = 1; i < 25; ++i) {
+		for (int i = 1; i <= 25; ++i) {
 
 			if (pos[i] != old[i]) {
 				old[i] = pos[i];
@@ -150,15 +151,15 @@ int main()
 
 	// プリメイドAI ICSへ接続
 	// 注.) Bluetooth 経由での接続ではありません
-	ai.Connect(PORT, BAUDRATE);
+	ai.Connect(PORT_HV, PORT_MV, BAUDRATE);
 
 	// サーボスピード設定
 	for (int i = 1; i <= SERVO_COUNT; ++i) {
-		ai.SetSpeed(i, 127);
+		ai.SetSpeed(i, 80);
 	}
 	// ストレッチ設定
 	for (int i = 1; i <= SERVO_COUNT; ++i) {
-		ai.SetStrectch(i, 60);
+		ai.SetStrectch(i, 30);
 	}
 	ai.SetPositionAll(0);
 
@@ -166,8 +167,7 @@ int main()
 
 //	mirroring_sample(ai);
 
-#if 0
-	sample(ai);
+#if 1
 	// サーボ位置を動かす例
 	for (int j = 0; j < 10; ++j) {
 		printf(">>>>>%d\n", j);

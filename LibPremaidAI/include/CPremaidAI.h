@@ -57,7 +57,7 @@ enum {
 class LIBPREMAIDAI_DLL_EXPORT CPremaidAI {
 	bool	_isConnected;
 
-	ISerialPort* _serial;
+	ISerialPort* _serial[ICS_COUNT];
 	IServo* _ics[ICS_COUNT];
 
 public:
@@ -65,13 +65,13 @@ public:
 
 	virtual ~CPremaidAI();
 
-	ISerialPort* GetSerialPort() { return _serial;  }
+	ISerialPort* GetSerialPort() { return _serial[TYPE_HV];  }
 
 //	IServo* GetServo(const int type) {
 //	}
 
 	// ê⁄ë±Ç∑ÇÈ
-	virtual void Connect(const wchar_t* port, const int baudrate);
+	virtual void Connect(const wchar_t* port_hv, const wchar_t* port_mv, const int baudrate);
 
 	// êÿífÇ∑ÇÈ
 	virtual void Disconnect();

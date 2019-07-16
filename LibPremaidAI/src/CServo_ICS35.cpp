@@ -302,13 +302,14 @@ RESULT CServo_ICS35::SendCommand(const DATABYTE byte1, const DATABYTE byte2, con
 	ICS_TRACE("SendCommand(%02x,%02x,%02x) sendsize:%zd\n", byte1, byte2, byte3, sendsize);
 
 	assert(sizeof(buffer) == sendsize);
-
+#if 0
 	result = RecvData(6);
 
 	int data = 0;
 	while (Proc(3 + 3, &data) >= 6) {
 		printf("*");
 	}// バッファが空になるまで処理
+#endif
 
 	return result;
 }

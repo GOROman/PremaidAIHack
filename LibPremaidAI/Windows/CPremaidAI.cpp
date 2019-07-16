@@ -105,10 +105,11 @@ static const int BONEMOTORTYPE[] =
 
 
 
-CPremaidAI::CPremaidAI() : _isConnected(false), _serial(NULL)
+CPremaidAI::CPremaidAI() : _isConnected(false)
 {
 	// シリアルポートを生成
-	_serial = new CSerialPort_Windows();
+	_serial[TYPE_HV] = new CSerialPort_Windows();
+	_serial[TYPE_MV] = new CSerialPort_Windows();
 
 	// サーボコントローラを生成
 	_ics[TYPE_HV] = new CServo_ICS35();
@@ -122,7 +123,8 @@ CPremaidAI::~CPremaidAI()
 	delete _ics[TYPE_MV];
 	delete _ics[TYPE_HV];
 
-	delete _serial;
+	delete _serial[TYPE_MV];
+	delete _serial[TYPE_HV];
 }
 
 // 指定関節のサーボ位置を設定
@@ -154,14 +156,16 @@ void CPremaidAI::SetRotation(const int id, const float deg) {
 
 
 // プリメイドAI ICSへ接続
-void CPremaidAI::Connect(const wchar_t* port, const int baudrate)
+void CPremaidAI::Connect(const wchar_t* port_hv, const wchar_t* port_mv, const int baudrate)
 {
-	int result = _serial->Connect(port, baudrate, ISerialPort::EVEN);
+	int result = 0;
+	result = _serial[TYPE_HV]->Connect(port_hv, baudrate, ISerialPort::EVEN);
+	result = _serial[TYPE_MV]->Connect(port_mv, baudrate, ISerialPort::EVEN);
 
 	if (result == RESULT_OK)
 	{
-		_ics[TYPE_HV]->Attach(NULL);
-		_ics[TYPE_MV]->Attach(_serial);
+		_ics[TYPE_HV]->Attach(_serial[TYPE_HV]);
+		_ics[TYPE_MV]->Attach(_serial[TYPE_MV]);
 
 		_isConnected = true;
 	}
@@ -172,7 +176,7 @@ void CPremaidAI::Disconnect()
 {
 	if (_isConnected == false) return;
 
-	_serial->Disconnect();
+//	_serial[TYPE_HV]->Disconnect();
 
 	_isConnected = false;
 }
