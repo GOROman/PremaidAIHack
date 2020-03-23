@@ -1,6 +1,6 @@
 # Premaid AI Hack
 
-[![Let's Omikuji](https://goroman-omikuji.herokuapp.com/omikuji.svg?PremaidAIHack)](https://goroman-omikuji.herokuapp.com/)
+[![Omikuji](https://omikuji.net/badge.svg)](https://omikuji.net/)
 
 ## Premaid AI
 
